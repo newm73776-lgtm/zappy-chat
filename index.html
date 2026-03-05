@@ -3101,6 +3101,10 @@
                 <div class="header-top">
                     <span class="header-title">Chats</span>
                     <div class="header-actions">
+                        <button id="mute-btn" class="icon-btn" title="Mute/Unmute notifications">
+                            <svg id="mute-icon-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                            <svg id="mute-icon-off" viewBox="0 0 24 24" style="display: none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                        </button>
                         <button id="add-friend-btn" class="icon-btn" title="Add Friend">
                             <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </button>
@@ -3162,6 +3166,7 @@
                     <div class="chat-header-text">
                         <div id="chat-header-name"></div>
                         <div class="chat-header-status">Online</div>
+                        <div id="typing-indicator" style="font-size: 12px; color: var(--primary-blue); font-style: italic; display: none;">typing...</div>
                     </div>
                 </div>
                 <div class="chat-header-actions">
@@ -3501,9 +3506,29 @@
 
         // Auto-resize textarea
         const chatInput = document.getElementById('chat-input');
+        let typingTimeout = null;
+        let isTyping = false;
+        
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            
+            // Send typing indicator
+            if (currentChatPartner && currentUser) {
+                const chatId = getChatId(currentUser.uid, currentChatPartner.uid);
+                db.ref(`typing/${chatId}/${currentUser.uid}`).set(true);
+                
+                // Clear existing timeout
+                if (typingTimeout) clearTimeout(typingTimeout);
+                
+                // Set new timeout to stop typing indicator after 2 seconds
+                typingTimeout = setTimeout(() => {
+                    db.ref(`typing/${chatId}/${currentUser.uid}`).remove();
+                    isTyping = false;
+                }, 2000);
+                
+                isTyping = true;
+            }
         });
 
         // Set default Firebase Auth persistence to LOCAL (always remember user unless they logout)
@@ -3966,7 +3991,38 @@
             });
             
             updateChatHeaderStatus();
+            
+            // Listen for partner's typing status
+            listenForPartnerTyping(currentChatId, partnerUid);
+            
             showView('chat-view');
+        }
+        
+        let currentTypingListener = null;
+        
+        function listenForPartnerTyping(chatId, partnerUid) {
+            // Remove previous listener if exists
+            if (currentTypingListener) {
+                db.ref(`typing/${chatId}`).off('value', currentTypingListener);
+            }
+            
+            const typingIndicator = document.getElementById('typing-indicator');
+            const statusDiv = document.querySelector('.chat-header-status');
+            
+            currentTypingListener = snapshot => {
+                const typingData = snapshot.val();
+                if (typingData && typingData[partnerUid]) {
+                    // Partner is typing
+                    typingIndicator.style.display = 'block';
+                    statusDiv.style.display = 'none';
+                } else {
+                    // Partner is not typing
+                    typingIndicator.style.display = 'none';
+                    statusDiv.style.display = 'block';
+                }
+            };
+            
+            db.ref(`typing/${chatId}`).on('value', currentTypingListener);
         }
         
         function renderMessage(msg, msgId, chatId) {
@@ -4084,21 +4140,21 @@
             document.getElementById('chat-messages').appendChild(div);
             document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
             
-            // Mark received messages as seen
-            if (!isSent && (!msg.status || msg.status !== 'seen')) {
+            // Mark received messages as seen ONLY if user is currently viewing this chat
+            if (!isSent && (!msg.status || msg.status !== 'seen') && currentChatId === chatId) {
                 db.ref(`messages/${chatId}/${msgId}`).update({ status: 'seen' });
             }
         }
         
         // Listen for message changes (delete/update/reactions) in real-time - CONSOLIDATED
         function listenForMessageChanges(chatId) {
-            // Listen for child added (new messages)
+            // Listen for child added (new messages) - only mark as seen if user is viewing this chat
             db.ref(`messages/${chatId}`).on('child_added', snapshot => {
                 const msg = snapshot.val();
                 const msgId = snapshot.key;
                 
-                // If message is from other user and not seen, mark as seen
-                if (msg.sender !== currentUser.uid && msg.status !== 'seen') {
+                // If message is from other user and not seen AND user is currently viewing this chat, mark as seen
+                if (msg.sender !== currentUser.uid && msg.status !== 'seen' && currentChatId === chatId) {
                     db.ref(`messages/${chatId}/${msgId}`).update({ status: 'seen' });
                 }
             });
@@ -4232,7 +4288,7 @@
                 case 'delivered':
                     return `<span class="message-status" style="${tickStyle} color: rgba(255,255,255,0.6);">✓✓</span>`;
                 case 'seen':
-                    return `<span class="message-status" style="${tickStyle} color: #ef4444;">✓✓</span>`;
+                    return `<span class="message-status" style="${tickStyle} color: #4ade80;">✓✓</span>`;
                 default:
                     return `<span class="message-status" style="${tickStyle} color: rgba(255,255,255,0.6);">✓</span>`;
             }
@@ -4433,8 +4489,8 @@
                     if (unreadElem) unreadElem.textContent = count > 0 ? `${count} new message${count > 1 ? 's' : ''}` : 'Tap to chat';
                 });
                 
-                // Play notification sound if unread count increased
-                if (totalUnread > previousUnread && notificationSound) {
+                // Play notification sound if unread count increased and not muted
+                if (totalUnread > previousUnread && notificationSound && !notificationsMuted) {
                     notificationSound.play().catch(e => console.log('Notification sound failed:', e));
                 }
                 
@@ -4583,7 +4639,10 @@
                     callerInfo.querySelector('.name').textContent = callData.caller.name;
                     callerInfo.querySelector('p').textContent = `Incoming ${callData.isVideo ? 'Video' : 'Voice'} Call`;
                     showModal('incoming-call-modal'); 
-                    ringtone.play();
+                    // Only play ringtone if not muted
+                    if (!notificationsMuted) {
+                        ringtone.play().catch(e => console.log('Ringtone play failed:', e));
+                    }
                 } else if (!callData && currentCallData && !currentCallData.answer) {
                     // Call was cancelled by caller before answering - silently close
                     ringtone.pause();
@@ -5522,25 +5581,6 @@
                             const item = document.createElement('div');
                             item.className = 'forward-contact-item';
                             item.dataset.uid = contactId;
-                            item.innerHTML = `
-                                <div class="forward-contact-checkbox"></div>
-                                <div class="list-item-emoji" style="width: 40px; height: 40px; font-size: 20px;">${user.emoji || '😊'}</div>
-                                <div class="list-item-details">
-                                    <div class="list-item-name">${user.name || 'Unknown'}</div>
-                                </div>
-                            `;
-                            
-                            item.addEventListener('click', () => {
-                                item.classList.toggle('selected');
-                                if (item.classList.contains('selected')) {
-                                    forwardContacts.add(contactId);
-                                } else {
-                                    forwardContacts.delete(contactId);
-                                }
-                                updateForwardButton();
-                            });
-                            
-                            list.appendChild(item);
                         }
                     });
                 });
@@ -5682,6 +5722,34 @@
                 setTimeout(initSupabase, 1000);
             }
         }
+        
+        // --- NOTIFICATION MUTE BUTTON ---
+        let notificationsMuted = localStorage.getItem('notificationsMuted') === 'true';
+        const muteBtn = document.getElementById('mute-btn');
+        const muteIconOn = document.getElementById('mute-icon-on');
+        const muteIconOff = document.getElementById('mute-icon-off');
+        
+        function updateMuteButtonState() {
+            if (notificationsMuted) {
+                muteIconOn.style.display = 'none';
+                muteIconOff.style.display = 'block';
+                muteBtn.title = 'Unmute notifications';
+            } else {
+                muteIconOn.style.display = 'block';
+                muteIconOff.style.display = 'none';
+                muteBtn.title = 'Mute notifications';
+            }
+        }
+        
+        // Initialize mute button state
+        updateMuteButtonState();
+        
+        muteBtn.addEventListener('click', () => {
+            notificationsMuted = !notificationsMuted;
+            localStorage.setItem('notificationsMuted', notificationsMuted);
+            updateMuteButtonState();
+            showToast(notificationsMuted ? 'Notifications muted' : 'Notifications unmuted');
+        });
         
         // --- CALL CONTROLS ---
         let isMuted = false;
