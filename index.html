@@ -39,6 +39,7 @@
             --success-green: #34C759;
             --error-red: #FF3B30;
             --warning-orange: #FF9500;
+            --admin-purple: #5856D6;
             
             /* Surface colors */
             --surface-white: rgba(255, 255, 255, 0.94);
@@ -51,11 +52,71 @@
             --radius-xl: 32px;
         }
 
+        /* Dark Theme Variables */
+        body.theme-dark {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-mid: #16213e;
+            --bg-gradient-end: #0f3460;
+            --glass-bg: rgba(45, 45, 70, 0.85);
+            --glass-bg-dark: rgba(35, 35, 55, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+        }
+
+        /* Ocean Theme Variables */
+        body.theme-ocean {
+            --bg-gradient-start: #e0f7fa;
+            --bg-gradient-mid: #b2ebf2;
+            --bg-gradient-end: #80deea;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-bg-dark: rgba(255, 255, 255, 0.95);
+            --primary-blue: #0097a7;
+            --primary-blue-dark: #006064;
+        }
+
+        /* Sunset Theme Variables */
+        body.theme-sunset {
+            --bg-gradient-start: #fff3e0;
+            --bg-gradient-mid: #ffe0b2;
+            --bg-gradient-end: #ffcc80;
+            --glass-bg: rgba(255, 248, 225, 0.85);
+            --glass-bg-dark: rgba(255, 243, 224, 0.95);
+            --primary-blue: #f57c00;
+            --primary-blue-dark: #e65100;
+            --admin-purple: #e91e63;
+        }
+
+        /* Forest Theme Variables */
+        body.theme-forest {
+            --bg-gradient-start: #e8f5e9;
+            --bg-gradient-mid: #c8e6c9;
+            --bg-gradient-end: #a5d6a7;
+            --glass-bg: rgba(241, 248, 233, 0.85);
+            --glass-bg-dark: rgba(232, 245, 233, 0.95);
+            --primary-blue: #388e3c;
+            --primary-blue-dark: #1b5e20;
+            --admin-purple: #00796b;
+        }
+
+        /* Royal Theme Variables */
+        body.theme-royal {
+            --bg-gradient-start: #f3e5f5;
+            --bg-gradient-mid: #e1bee7;
+            --bg-gradient-end: #ce93d8;
+            --glass-bg: rgba(252, 228, 236, 0.85);
+            --glass-bg-dark: rgba(243, 229, 245, 0.95);
+            --primary-blue: #6a1b9a;
+            --primary-blue-dark: #4a148c;
+            --admin-purple: #ff8f00;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         html, body {
@@ -72,6 +133,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background 0.5s ease, color 0.3s ease;
         }
 
         /* Scrollbar styling */
@@ -131,13 +193,13 @@
                 max-height: 100%;
                 border-radius: 0;
                 box-shadow: none;
-                background: #ffffff;
+                background: transparent;
             }
             #app-container::before {
                 display: none;
             }
             #main-view {
-                background: #ffffff;
+                background: transparent;
             }
         }
 
@@ -151,6 +213,7 @@
                 max-height: 100%;
                 border-radius: 0;
                 box-shadow: none;
+                background: transparent;
             }
             #app-container::before {
                 display: none;
@@ -167,7 +230,7 @@
                 max-height: 100%;
                 border-radius: 0;
                 box-shadow: none;
-                background: #ffffff;
+                background: transparent;
             }
         }
 
@@ -180,7 +243,7 @@
                 border-radius: 0;
                 max-width: 100%;
                 max-height: 100%;
-                background: #ffffff;
+                background: transparent;
             }
         }
 
@@ -253,7 +316,7 @@
             .auth-left-panel {
                 width: 50%;
                 height: 100%;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -262,6 +325,7 @@
                 color: white;
                 position: relative;
                 overflow: hidden;
+                transition: background 0.3s ease;
             }
             
             .auth-left-panel::before {
@@ -453,7 +517,7 @@
             
             .forgot-password {
                 font-size: 14px;
-                color: #667eea;
+                color: var(--primary-blue);
                 text-decoration: none;
                 font-weight: 500;
                 cursor: pointer;
@@ -461,7 +525,7 @@
             }
             
             .forgot-password:hover {
-                color: #764ba2;
+                color: var(--admin-purple);
             }
             
             .auth-button {
@@ -469,7 +533,7 @@
                 padding: 16px 24px;
                 border: none;
                 border-radius: 12px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
                 color: white;
                 font-family: inherit;
                 font-size: 16px;
@@ -477,7 +541,7 @@
                 cursor: pointer;
                 transition: all 0.2s ease;
                 margin-top: 16px;
-                box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
             }
             
             .auth-button:hover {
@@ -497,7 +561,7 @@
             }
             
             .form-switch-text a {
-                color: #667eea;
+                color: var(--primary-blue);
                 text-decoration: none;
                 font-weight: 600;
                 cursor: pointer;
@@ -505,7 +569,7 @@
             }
             
             .form-switch-text a:hover {
-                color: #764ba2;
+                color: var(--admin-purple);
             }
             
             .error-message {
@@ -635,8 +699,8 @@
             }
             
             .auth-form input:focus {
-                border-color: #667eea;
-                box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+                border-color: var(--primary-blue);
+                box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
             }
             
             .auth-form input::placeholder {
@@ -661,12 +725,13 @@
             .remember-me input[type="checkbox"] {
                 width: 18px;
                 height: 18px;
-                accent-color: #667eea;
+                accent-color: var(--primary-blue);
+                cursor: pointer;
             }
             
             .forgot-password {
                 font-size: 14px;
-                color: #667eea;
+                color: var(--primary-blue);
                 text-decoration: none;
                 font-weight: 500;
                 cursor: pointer;
@@ -677,7 +742,7 @@
                 padding: 16px 24px;
                 border: none;
                 border-radius: 12px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
                 color: white;
                 font-family: inherit;
                 font-size: 16px;
@@ -695,7 +760,7 @@
             }
             
             .form-switch-text a {
-                color: #667eea;
+                color: var(--primary-blue);
                 text-decoration: none;
                 font-weight: 600;
                 cursor: pointer;
@@ -908,7 +973,7 @@
         }
 
         .nav-tab.active {
-            background: white;
+            background: var(--glass-bg-dark);
             color: var(--primary-blue);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
@@ -947,10 +1012,28 @@
 
         .content-panel {
             display: none;
+            animation: fadeInPanel 0.3s ease;
         }
 
         .content-panel.active {
             display: block;
+        }
+
+        @keyframes fadeInPanel {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Theme-aware content backgrounds */
+        #home-content, #notifications-content, #calls-content {
+            min-height: 100%;
+            transition: background 0.3s ease;
         }
 
         /* Empty state */
@@ -1018,10 +1101,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 100%);
             border-radius: 14px;
             margin-right: 14px;
             flex-shrink: 0;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .list-item:hover .list-item-emoji {
+            transform: scale(1.05);
         }
 
         .list-item-details {
@@ -1082,14 +1170,15 @@
             background: rgba(120, 120, 128, 0.2);
         }
 
-        /* ========== CHAT VIEW - Liquid Glass ========== */
+        /* ========== CHAT VIEW - Theme aware ========== */
         #chat-view {
             display: none;
             position: absolute;
             top: 0;
             left: 0;
             z-index: 20;
-            background: linear-gradient(180deg, #F5F5F7 0%, #FFFFFF 100%);
+            background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+            transition: background 0.3s ease;
         }
 
         header.chat-header {
@@ -1119,8 +1208,9 @@
             width: 40px;
             height: 40px;
             font-size: 20px;
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 100%);
             border-radius: 12px;
+            transition: background 0.3s ease;
         }
 
         .chat-header-text {
@@ -1287,7 +1377,8 @@
         }
 
         #voice-call-view {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+            transition: background 0.3s ease;
         }
 
         #remote-video {
@@ -1634,35 +1725,30 @@
 
         /* Dark Theme */
         body.dark-theme {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --surface-white: #0f3460;
-            --text-primary: #eaeaea;
-            --text-secondary: #a0a0a0;
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-mid: #16213e;
+            --bg-gradient-end: #0f3460;
+            --glass-bg: rgba(45, 45, 70, 0.85);
+            --glass-bg-dark: rgba(35, 35, 55, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --surface-white: rgba(45, 45, 70, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
             --text-tertiary: #707070;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-bg-dark: rgba(255, 255, 255, 0.1);
         }
         
-        body.dark-theme #app-container {
-            background: var(--bg-primary);
+        /* Theme transitions for smooth theme switching */
+        body.theme-dark,
+        body.theme-ocean,
+        body.theme-sunset,
+        body.theme-forest,
+        body.theme-royal {
+            transition: background 0.5s ease, color 0.3s ease;
         }
         
-        body.dark-theme .list-item {
-            background: var(--surface-white);
-        }
-        
-        body.dark-theme #chat-view {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-        }
-        
-        body.dark-theme .message-received {
-            background: var(--surface-white);
-            color: var(--text-primary);
-        }
-        
-        body.dark-theme .main-header {
-            background: var(--bg-primary);
+        /* Loading screen theme support */
+        #loading-screen {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
         }
         
         /* Settings Modal Responsive */
@@ -1823,7 +1909,7 @@
         }
         
         .emoji-category-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
             transform: scale(1.05);
         }
         
@@ -1919,15 +2005,15 @@
         }
         
         body.dark-theme .emoji-categories {
-            border-bottom-color: rgba(255, 255, 255, 0.1);
+            border-bottom-color: var(--glass-border);
         }
         
         body.dark-theme .emoji-category-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass-bg);
         }
         
         body.dark-theme .emoji-category-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass-bg-dark);
         }
         
         /* Modern Button Styles for Profile & Settings */
@@ -1957,12 +2043,12 @@
         }
         
         .btn-primary-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
             color: white;
         }
         
         .btn-primary-gradient:hover {
-            background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+            background: linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--admin-purple) 100%);
         }
         
         .btn-secondary-soft {
@@ -2109,14 +2195,14 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%);
             color: white;
             padding: 12px 20px;
             border-radius: 30px;
             display: none;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -2249,13 +2335,14 @@
         /* Reaction Picker */
         .reaction-picker {
             position: fixed;
-            background: white;
+            background: var(--glass-bg-dark);
             border-radius: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             padding: 8px;
             display: none;
             z-index: 1001;
             gap: 4px;
+            backdrop-filter: blur(10px);
         }
 
         .reaction-picker.show {
@@ -2308,7 +2395,7 @@
         }
 
         .forward-contact-item.selected {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(0, 122, 255, 0.1);
         }
 
         .forward-contact-checkbox {
@@ -2555,7 +2642,7 @@
             position: absolute;
             bottom: 70px;
             left: 12px;
-            background: white;
+            background: var(--glass-bg-dark);
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             padding: 12px;
@@ -2564,6 +2651,7 @@
             gap: 8px;
             z-index: 100;
             min-width: 160px;
+            backdrop-filter: blur(10px);
         }
 
         .media-upload-menu.show {
@@ -2640,7 +2728,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            background: white;
+            background: var(--glass-bg-dark);
             padding: 16px 24px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
@@ -2648,6 +2736,7 @@
             align-items: center;
             gap: 12px;
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
         .upload-progress.show {
@@ -3193,7 +3282,7 @@
         
         <div id="profile-view-modal" class="modal">
             <div class="modal-content glass-elevated" style="max-width: 400px; padding: 0; overflow: hidden; border-radius: 20px;">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 20px; text-align: center; color: white;">
+                <div style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%); padding: 30px 20px; text-align: center; color: white;">
                     <div id="profile-avatar-emoji" style="width: 100px; height: 100px; font-size: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; backdrop-filter: blur(10px); border: 3px solid rgba(255,255,255,0.3);">😊</div>
                     <h2 id="profile-display-name" style="margin: 0; font-size: 24px; font-weight: 600; color: white;">User Name</h2>
                     <p id="profile-display-id" style="margin: 5px 0 0; font-size: 14px; opacity: 0.9; color: white;">ID: jg-xxxx</p>
@@ -3249,7 +3338,7 @@
             <div class="modal-content glass-elevated" style="max-width: 320px;">
                 <h2>Incoming Call</h2>
                 <div id="incoming-caller-info" class="caller-info" style="color: var(--text-primary);">
-                    <div class="emoji" style="width: 80px; height: 80px; font-size: 40px; background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: none;"></div>
+                    <div class="emoji" style="width: 80px; height: 80px; font-size: 40px; background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 100%); border: none;"></div>
                     <div class="name" style="color: var(--text-primary); margin-top: 12px;"></div>
                     <p style="color: var(--text-secondary); margin-top: 8px;">Incoming call</p>
                 </div>
@@ -3267,7 +3356,7 @@
         <!-- Settings Modal -->
         <div id="settings-modal" class="modal">
             <div class="modal-content glass-elevated" style="max-width: 380px; padding: 0; overflow: hidden; border-radius: 20px;">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 24px 20px; text-align: center; color: white;">
+                <div style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%); padding: 24px 20px; text-align: center; color: white;">
                     <h2 style="margin: 0; font-size: 22px; font-weight: 600; color: white;">Settings</h2>
                 </div>
                 <div style="padding: 24px;">
@@ -3276,7 +3365,7 @@
                         <h3 style="font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">Appearance</h3>
                         <div id="theme-toggle" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(120, 120, 128, 0.08); border-radius: 12px; transition: background 0.2s;">
                             <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                                     <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
                                 </div>
                                 <span style="font-size: 15px; color: var(--text-primary); font-weight: 500;">Dark Theme</span>
@@ -3311,15 +3400,28 @@
             </div>
         </div>
         
-        <!-- Chat More Modal -->
+        <!-- Admin Ban Modal -->
+        <div id="admin-ban-modal" class="modal" style="z-index: 9999;">
+            <div class="modal-content glass-elevated" style="max-width: 400px; text-align: center; padding: 40px;">
+                <div style="font-size: 60px; margin-bottom: 20px;">🚫</div>
+                <h2 style="color: var(--error-red); margin-bottom: 16px;">Account Banned</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;">
+                    Your account has been banned by an administrator.<br>
+                    <span id="ban-reason" style="font-style: italic; margin-top: 8px; display: block;"></span>
+                </p>
+                <button onclick="location.reload()" class="btn-modern btn-primary-gradient" style="width: 100%;">
+                    Return to Login
+                </button>
+            </div>
+        </div>
         <div id="chat-more-modal" class="modal">
             <div class="modal-content glass-elevated" style="max-width: 320px; padding: 0; overflow: hidden; border-radius: 20px;">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center; color: white;">
+                <div style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--admin-purple) 100%); padding: 20px; text-align: center; color: white;">
                     <h2 style="margin: 0; font-size: 20px; font-weight: 600; color: white;">Chat Options</h2>
                 </div>
                 <div style="padding: 24px;">
                     <div id="chat-more-info" style="text-align: center; margin-bottom: 20px;">
-                        <div id="chat-more-emoji" style="width: 60px; height: 60px; font-size: 30px; background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">😊</div>
+                        <div id="chat-more-emoji" style="width: 60px; height: 60px; font-size: 30px; background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">😊</div>
                         <div id="chat-more-name" style="font-size: 16px; font-weight: 600; color: var(--text-primary);">User Name</div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -3412,27 +3514,36 @@
         
         auth.onAuthStateChanged(async (user) => {
             if (!authInitialized) {
-                // First auth state determination - wait for view to render then hide loading screen
                 setTimeout(() => {
                     document.getElementById('loading-screen').classList.add('hidden');
-                }, 800); // 800ms delay to ensure smooth transition
+                }, 800);
                 authInitialized = true;
             }
             
             if (user) {
                 try {
+                    // First check if user is admin-blocked
+                    const isBlocked = await checkAdminBlock(user.uid);
+                    if (isBlocked) {
+                        // User is blocked, don't proceed with app initialization
+                        showView('auth-view');
+                        return;
+                    }
+                    
                     db.ref(`users/${user.uid}`).on('value', (snapshot) => {
                         if (snapshot.exists()) {
                             const wasNull = currentUser === null;
                             currentUser = { uid: user.uid, ...snapshot.val() };
-                            if(wasNull) initializeApp();
+                            if(wasNull) {
+                                initializeApp();
+                                listenForAdminBlock(); // Start listening for admin blocks
+                            }
                             showView('main-view');
                         } else { 
                             showModal('profile-setup-modal'); 
                         }
                     }, (error) => {
                         console.error('Database error:', error);
-                        // If permission denied or other error, sign out
                         if (error.code === 'PERMISSION_DENIED') {
                             auth.signOut();
                         }
@@ -3444,10 +3555,6 @@
                 currentUser = null; 
                 showView('auth-view'); 
             }
-        }, (error) => {
-            console.error('Auth state change error:', error);
-            currentUser = null;
-            showView('auth-view');
         });
         
         document.getElementById('login-form').addEventListener('submit', (e) => { 
@@ -3545,7 +3652,8 @@
             listenForIncomingCalls(); 
             listenForUnreadMessages(); 
             renderCallLogs();
-            setupPresence(); // Setup online/offline tracking
+            setupPresence();
+            listenForAdminBlock(); // Listen for admin blocks in real-time
         }
 
         // --- NAVIGATION ---
@@ -3984,6 +4092,18 @@
         
         // Listen for message changes (delete/update/reactions) in real-time - CONSOLIDATED
         function listenForMessageChanges(chatId) {
+            // Listen for child added (new messages)
+            db.ref(`messages/${chatId}`).on('child_added', snapshot => {
+                const msg = snapshot.val();
+                const msgId = snapshot.key;
+                
+                // If message is from other user and not seen, mark as seen
+                if (msg.sender !== currentUser.uid && msg.status !== 'seen') {
+                    db.ref(`messages/${chatId}/${msgId}`).update({ status: 'seen' });
+                }
+            });
+            
+            // Listen for child changed (status updates, edits, deletes)
             db.ref(`messages/${chatId}`).on('child_changed', snapshot => {
                 const msg = snapshot.val();
                 const msgId = snapshot.key;
@@ -4027,6 +4147,11 @@
                 
                 // Update message status (read receipts)
                 updateMessageStatusUI(msgId, msg.status, msg.sender === currentUser.uid);
+                
+                // If status changed to seen and message is from current user, update UI
+                if (msg.status === 'seen' && msg.sender === currentUser.uid) {
+                    updateMessageStatusUI(msgId, 'seen', true);
+                }
             });
             
             // Listen for removed messages
@@ -4107,7 +4232,7 @@
                 case 'delivered':
                     return `<span class="message-status" style="${tickStyle} color: rgba(255,255,255,0.6);">✓✓</span>`;
                 case 'seen':
-                    return `<span class="message-status" style="${tickStyle} color: #60a5fa;">✓✓</span>`;
+                    return `<span class="message-status" style="${tickStyle} color: #ef4444;">✓✓</span>`;
                 default:
                     return `<span class="message-status" style="${tickStyle} color: rgba(255,255,255,0.6);">✓</span>`;
             }
@@ -4616,21 +4741,46 @@
         }
         
         function logCall(status) {
-            if (!currentCallData) return;
-            const partner = currentCallData.caller.uid === currentUser.uid ? currentChatPartner : currentCallData.caller; 
-            if(!partner) return;
-            db.ref(`callLogs/${currentUser.uid}`).push({ 
+            if (!currentCallData || !currentUser) return;
+            
+            // Determine the partner - either from currentChatPartner or from callData
+            let partner = null;
+            if (currentCallData.caller.uid === currentUser.uid) {
+                // Current user is the caller
+                partner = currentChatPartner || currentCallData.callee;
+            } else {
+                // Current user is the callee
+                partner = currentCallData.caller;
+            }
+            
+            if (!partner || !partner.name) {
+                console.log('Cannot log call - partner info missing');
+                return;
+            }
+            
+            const callLogEntry = { 
                 partnerName: partner.name, 
-                partnerEmoji: partner.emoji, 
+                partnerEmoji: partner.emoji || '😊', 
                 type: currentCallData.isVideo ? 'video' : 'voice', 
-                status, 
+                status: status, 
                 timestamp: firebase.database.ServerValue.TIMESTAMP 
-            });
+            };
+            
+            db.ref(`callLogs/${currentUser.uid}`).push(callLogEntry)
+                .then(() => console.log('Call logged successfully:', status))
+                .catch(err => console.error('Failed to log call:', err));
         }
         
         function renderCallLogs() {
             const list = document.getElementById('call-log-list');
-            db.ref(`callLogs/${currentUser.uid}`).orderByChild('timestamp').limitToLast(30).on('value', snapshot => {
+            if (!list) return;
+            
+            // Clear existing listener if any
+            if (currentUser && currentUser.uid) {
+                db.ref(`callLogs/${currentUser.uid}`).off('value');
+            }
+            
+            db.ref(`callLogs/${currentUser.uid}`).orderByChild('timestamp').limitToLast(50).on('value', snapshot => {
                 list.innerHTML = ''; 
                 if (!snapshot.exists()) { 
                     list.innerHTML = `
@@ -4641,20 +4791,55 @@
                         </div>`; 
                     return; 
                 }
+                
                 const logs = []; 
-                snapshot.forEach(child => logs.push(child.val()));
-                logs.reverse().forEach(log => {
+                snapshot.forEach(child => {
+                    logs.push({ id: child.key, ...child.val() });
+                });
+                
+                // Sort by timestamp descending (most recent first)
+                logs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                
+                logs.forEach(log => {
                     const div = document.createElement('div'); 
                     div.className = 'list-item';
-                    const statusColor = log.status === 'ended' ? 'var(--success-green)' : 'var(--error-red)';
+                    div.style.cursor = 'default';
+                    
+                    // Determine icon and color based on call type and status
+                    const isVideo = log.type === 'video';
+                    const isMissed = log.status === 'rejected' || log.status === 'missed';
+                    const isOutgoing = log.status === 'ended'; // ended means completed
+                    
+                    const callIcon = isVideo ? '📹' : '📞';
+                    const statusColor = isMissed ? 'var(--error-red)' : 'var(--success-green)';
+                    const statusText = isMissed ? 'Missed' : (log.status === 'ended' ? 'Completed' : log.status);
+                    
+                    // Format timestamp
+                    let timeText = 'Unknown';
+                    if (log.timestamp) {
+                        const date = new Date(log.timestamp);
+                        const now = new Date();
+                        const isToday = date.toDateString() === now.toDateString();
+                        const isYesterday = new Date(now - 86400000).toDateString() === date.toDateString();
+                        
+                        if (isToday) {
+                            timeText = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        } else if (isYesterday) {
+                            timeText = 'Yesterday';
+                        } else {
+                            timeText = date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+                        }
+                    }
+                    
                     div.innerHTML = `
-                        <div class="list-item-emoji">${log.partnerEmoji}</div> 
+                        <div class="list-item-emoji" style="font-size: 24px;">${log.partnerEmoji || '😊'}</div> 
                         <div class="list-item-details"> 
-                            <div class="list-item-name">${log.partnerName}</div> 
-                            <div class="list-item-subtext" style="display: flex; align-items: center; gap: 6px;">
-                                <span style="color: ${statusColor};">${log.status}</span>
-                                <span>•</span>
-                                <span>${new Date(log.timestamp).toLocaleDateString()}</span>
+                            <div class="list-item-name">${log.partnerName || 'Unknown'}</div> 
+                            <div class="list-item-subtext" style="display: flex; align-items: center; gap: 6px; font-size: 13px;">
+                                <span>${callIcon}</span>
+                                <span style="color: ${statusColor}; text-transform: capitalize;">${statusText}</span>
+                                <span style="color: var(--text-tertiary);">•</span>
+                                <span style="color: var(--text-tertiary);">${timeText}</span>
                             </div> 
                         </div>`;
                     list.appendChild(div);
@@ -4829,7 +5014,56 @@
             showModal('settings-modal');
         });
         
-        // Chat more modal - Block user
+        // Listen for admin block in real-time
+        let adminBlockListener = null;
+        function listenForAdminBlock() {
+            if (!currentUser || !currentUser.uid) return;
+            
+            // Remove previous listener if exists
+            if (adminBlockListener) {
+                db.ref(`users/${currentUser.uid}/adminBlocked`).off('value', adminBlockListener);
+            }
+            
+            adminBlockListener = db.ref(`users/${currentUser.uid}/adminBlocked`).on('value', snapshot => {
+                const blockData = snapshot.val();
+                if (blockData && blockData.blockedAt) {
+                    // User has been blocked by admin
+                    const reason = blockData.reason || 'Violation of terms';
+                    showBanModal(reason);
+                    // Sign out the user
+                    setTimeout(() => {
+                        auth.signOut().then(() => {
+                            currentUser = null;
+                        });
+                    }, 1000);
+                }
+            });
+        }
+        
+        function showBanModal(reason) {
+            const modal = document.getElementById('admin-ban-modal');
+            const reasonSpan = document.getElementById('ban-reason');
+            if (reasonSpan) {
+                reasonSpan.textContent = `Reason: ${reason}`;
+            }
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+        
+        // Check admin block on login
+        async function checkAdminBlock(uid) {
+            const snapshot = await db.ref(`users/${uid}/adminBlocked`).once('value');
+            const blockData = snapshot.val();
+            if (blockData && blockData.blockedAt) {
+                const reason = blockData.reason || 'Violation of terms';
+                showBanModal(reason);
+                await auth.signOut();
+                currentUser = null;
+                return true; // User is blocked
+            }
+            return false; // User is not blocked
+        }
         document.getElementById('block-user-btn').addEventListener('click', () => {
             if(!currentChatPartner) return;
             if (confirm(`Block ${currentChatPartner.name}?`)) {
@@ -5799,6 +6033,39 @@
         
         setupPasswordToggle('toggle-login-password', 'login-password');
         setupPasswordToggle('toggle-signup-password', 'signup-password');
+        
+        // Theme Management - Listen for theme changes from Admin Panel
+        function applyTheme(themeName) {
+            // Remove all theme classes
+            document.body.classList.remove('theme-dark', 'theme-ocean', 'theme-sunset', 'theme-forest', 'theme-royal');
+            
+            // Add new theme class if not default
+            if (themeName && themeName !== 'default') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
+            
+            // Save to localStorage for persistence
+            localStorage.setItem('siteTheme', themeName);
+        }
+        
+        function loadTheme() {
+            // First check localStorage
+            const savedTheme = localStorage.getItem('siteTheme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            }
+            
+            // Then listen for real-time updates from Firebase
+            db.ref('siteSettings/theme').on('value', snapshot => {
+                const themeData = snapshot.val();
+                if (themeData && themeData.name) {
+                    applyTheme(themeData.name);
+                }
+            });
+        }
+        
+        // Load theme on page load
+        loadTheme();
     </script>
 </body>
 </html>
