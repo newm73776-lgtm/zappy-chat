@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>CallingApp</title>
+    <title>Zappy-online</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -3562,6 +3562,10 @@
                     </div>
                 </div>
                 <div id="calls-content" class="content-panel">
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; border-bottom:1px solid rgba(120, 120, 128, 0.1);">
+                        <h2 style="font-size:18px; margin:0; font-weight:600;">Call History</h2>
+                        <button id="clear-call-history-btn" style="background:none; border:none; color:var(--error-red); font-size:14px; cursor:pointer; font-weight:500;">Clear All</button>
+                    </div>
                     <div id="call-log-list"></div>
                 </div>
             </main>
@@ -3688,7 +3692,7 @@
         <div id="add-friend-modal" class="modal">
             <div class="modal-content glass-elevated">
                 <h2>Add Friend</h2>
-                <p>Enter your friend's CallingApp ID to connect instantly</p>
+                <p>Enter your friend's Zappy-online ID to connect instantly</p>
                 <input type="text" id="add-friend-id-input" placeholder="jg-xxxx">
                 <div id="add-friend-error" style="color:var(--error-red);font-size:13px;min-height:18px;"></div>
                 <div class="modal-actions">
@@ -3763,8 +3767,8 @@
                 <video id="status-viewer-video" style="max-width:100%;max-height:100%;display:none;" autoplay playsinline></video>
             </div>
             <!-- Bottom eye icon (own status) -->
-            <div id="status-viewer-views" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));padding:20px 20px 30px;display:none;">
-                <div style="display:flex;align-items:center;gap:8px;cursor:pointer;" id="status-views-btn">
+            <div id="status-viewer-views" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));padding:20px 20px 30px;display:none;justify-content:center;">
+                <div style="display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;" id="status-views-btn">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                     <span id="status-views-count" style="color:white;font-size:15px;font-weight:600;">0 views</span>
                 </div>
@@ -3801,7 +3805,7 @@
                         <div style="display: flex; align-items: center; padding: 12px; background: rgba(120, 120, 128, 0.08); border-radius: 12px;">
                             <span style="font-size: 20px; margin-right: 12px;">🆔</span>
                             <div>
-                                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 2px;">CallingApp ID</div>
+                                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 2px;">Zappy-online ID</div>
                                 <div id="profile-display-jgid" style="font-size: 15px; color: var(--text-primary); font-weight: 500;">jg-xxxx</div>
                             </div>
                         </div>
@@ -3900,7 +3904,33 @@
                         </div>
                     </div>
                     
+                    <!-- Report Section -->
+                    <div class="settings-section" style="margin-bottom: 20px;">
+                        <h3 style="font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">Support</h3>
+                        <div id="report-issue-btn" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(255, 59, 48, 0.08); border-radius: 12px; transition: background 0.2s;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 36px; height: 36px; background: rgba(255, 59, 48, 0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--error-red); font-size: 18px;">
+                                    🚩
+                                </div>
+                                <span style="font-size: 15px; color: var(--error-red); font-weight: 500;">Report Bug or User</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button id="close-settings-btn" class="btn-modern btn-secondary-soft btn-full-width">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Report Modal -->
+        <div id="report-modal" class="modal">
+            <div class="modal-content glass-elevated">
+                <h2>Report Issue</h2>
+                <p>Describe your issue or report a user violation.</p>
+                <textarea id="report-description" placeholder="Description of problem, offending User ID, details..." rows="5" style="width:100%; border-radius:var(--radius-md); padding:12px; border:1px solid rgba(120, 120, 128, 0.2); background:transparent; color:var(--text-primary); margin:10px 0; font-family: inherit; font-size:14px;"></textarea>
+                <div class="modal-actions">
+                    <button class="modal-btn-secondary" onclick="showModal('report-modal', false)">Cancel</button>
+                    <button id="submit-report-btn" class="btn-primary">Submit</button>
                 </div>
             </div>
         </div>
@@ -4279,7 +4309,7 @@
             const friendId = document.getElementById('add-friend-id-input').value.trim();
             const errDiv = document.getElementById('add-friend-error');
             errDiv.textContent = '';
-            if (!friendId) { errDiv.textContent = 'Please enter a CallingApp ID.'; return; }
+            if (!friendId) { errDiv.textContent = 'Please enter a Zappy-online ID.'; return; }
             db.ref('users').orderByChild('jgId').equalTo(friendId).once('value', snapshot => {
                 if (snapshot.exists()) {
                     const friendUid = Object.keys(snapshot.val())[0];
@@ -4455,7 +4485,7 @@
                         <div class="empty-state">
                             <div class="empty-state-icon">👋</div>
                             <h3>No contacts yet</h3>
-                            <p>Add friends using their CallingApp ID to start chatting</p>
+                            <p>Add friends using their Zappy-online ID to start chatting</p>
                         </div>`; 
                 }
             });
@@ -5154,13 +5184,16 @@
                         console.log('setRemoteDescription error:', err);
                     }
                 } else if (!data && currentCallData) { 
-                    // Call was rejected or cancelled by callee - silently cleanup
+                    // Call was rejected or cancelled by callee
+                    logCall('rejected');
                     cleanupCall(); 
                 } else if (data && data.ended) {
-                    // Call was ended by callee - silently cleanup
+                    // Call was ended by callee
+                    logCall('ended');
                     cleanupCall();
                 } else if (data && data.rejected) {
-                    // Call was rejected - silently cleanup
+                    // Call was rejected
+                    logCall('rejected');
                     cleanupCall();
                 }
             });
@@ -5185,16 +5218,19 @@
                         ringtone.play().catch(e => console.log('Ringtone play failed:', e));
                     }
                 } else if (!callData && currentCallData && !currentCallData.answer) {
-                    // Call was cancelled by caller before answering - silently close
+                    // Call was cancelled by caller before answering
+                    logCall('missed');
                     ringtone.pause();
                     ringtone.currentTime = 0;
                     showModal('incoming-call-modal', false);
-                    currentCallData = null;
+                    cleanupCall();
                 } else if (callData && callData.ended && currentCallData) {
-                    // Call was ended by caller after being answered - silently cleanup
+                    // Call was ended by caller after being answered
+                    logCall('ended');
                     cleanupCall();
                 } else if (callData && callData.rejected && currentCallData) {
-                    // Call was rejected - silently cleanup for caller
+                    // Call was rejected
+                    logCall('rejected');
                     cleanupCall();
                 }
             });
@@ -5238,6 +5274,9 @@
             // Close modal immediately
             showModal('incoming-call-modal', false); 
             
+            // Log call first before we lose currentCallData
+            logCall('rejected');
+
             // Get call data before clearing
             const callData = currentCallData;
             
@@ -5441,7 +5480,14 @@
                                 <span style="color: var(--text-tertiary);">•</span>
                                 <span style="color: var(--text-tertiary);">${timeText}</span>
                             </div> 
-                        </div>`;
+                        </div>
+                        <button class="delete-log-btn" style="background:transparent;border:none;color:var(--text-tertiary);font-size:24px;cursor:pointer;padding:8px 12px;display:flex;align-items:center;justify-content:center;">&times;</button>`;
+                    div.querySelector('.delete-log-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (confirm('Delete this call record?')) {
+                            db.ref(`callLogs/${currentUser.uid}/${log.id}`).remove();
+                        }
+                    });
                     list.appendChild(div);
                 });
             });
@@ -5520,6 +5566,35 @@
         
         // --- SETTINGS MODAL ---
         document.getElementById('close-settings-btn').addEventListener('click', () => showModal('settings-modal', false));
+        
+        document.getElementById('clear-call-history-btn').addEventListener('click', () => {
+            if (currentUser && confirm('Clear all call history?')) {
+                db.ref(`callLogs/${currentUser.uid}`).remove().then(() => showToast('History cleared'));
+            }
+        });
+
+        document.getElementById('report-issue-btn').addEventListener('click', () => {
+            showModal('settings-modal', false);
+            document.getElementById('report-description').value = '';
+            showModal('report-modal');
+        });
+
+        document.getElementById('submit-report-btn').addEventListener('click', () => {
+            const desc = document.getElementById('report-description').value.trim();
+            if (!desc) return alert('Please enter a description');
+            
+            db.ref('reports').push({
+                reporterUid: currentUser.uid,
+                reporterName: currentUser.name || 'User',
+                reporterJgId: currentUser.jgId || '',
+                description: desc,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                status: 'pending'
+            }).then(() => {
+                showModal('report-modal', false);
+                showToast('Report submitted successfully');
+            });
+        });
         
         // Theme toggle
         const themeToggle = document.getElementById('theme-toggle');
@@ -6748,11 +6823,24 @@
                 statusPendingFile = file;
                 statusPendingType = 'video';
                 const url = URL.createObjectURL(file);
-                document.getElementById('status-preview-video').src = url;
-                document.getElementById('status-preview-video').style.display = 'block';
-                document.getElementById('status-preview-img').style.display = 'none';
-                document.getElementById('status-upload-preview').style.display = 'block';
-                document.getElementById('confirm-status-upload-btn').disabled = false;
+                const vid = document.getElementById('status-preview-video');
+                vid.src = url;
+                vid.onloadedmetadata = () => {
+                    if (vid.duration > 60) {
+                        alert('Video status cannot exceed 1 minute.');
+                        statusPendingFile = null;
+                        statusPendingType = null;
+                        document.getElementById('status-upload-preview').style.display = 'none';
+                        document.getElementById('confirm-status-upload-btn').disabled = true;
+                        document.getElementById('status-video-input').value = '';
+                        vid.src = '';
+                        return;
+                    }
+                    vid.style.display = 'block';
+                    document.getElementById('status-preview-img').style.display = 'none';
+                    document.getElementById('status-upload-preview').style.display = 'block';
+                    document.getElementById('confirm-status-upload-btn').disabled = false;
+                };
             });
 
             // Cancel upload
@@ -6921,80 +7009,90 @@
             }
         }
 
+        let isStatusLoading = false;
         async function loadStatusPage() {
-            if (!currentUser) return;
+            if (!currentUser || isStatusLoading) return;
+            isStatusLoading = true;
+            try {
+                // Update my avatar emoji
+                document.getElementById('my-status-avatar').textContent = currentUser.emoji || '😊';
+                await updateMyStatusUI();
 
-            // Update my avatar emoji
-            document.getElementById('my-status-avatar').textContent = currentUser.emoji || '😊';
-            await updateMyStatusUI();
+                // Load friends' statuses
+                const friendsList = document.getElementById('friends-status-list');
+                const friendsSection = document.getElementById('friends-status-section');
+                const emptyState = document.getElementById('status-empty-state');
+                
+                const contactsSnap = await db.ref(`users/${currentUser.uid}/contacts`).once('value');
+                if (!contactsSnap.exists()) {
+                    friendsList.innerHTML = '';
+                    friendsSection.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    return;
+                }
 
-            // Load friends' statuses
-            const friendsList = document.getElementById('friends-status-list');
-            const friendsSection = document.getElementById('friends-status-section');
-            const emptyState = document.getElementById('status-empty-state');
-            friendsList.innerHTML = '';
+                const now = Date.now();
+                const contactUids = Object.keys(contactsSnap.val());
+                let friendStatusCount = 0;
+                
+                const itemsToAppend = [];
 
-            const contactsSnap = await db.ref(`users/${currentUser.uid}/contacts`).once('value');
-            if (!contactsSnap.exists()) {
-                friendsSection.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
-            }
+                for (const uid of contactUids) {
+                    const statusSnap = await db.ref(`statuses/${uid}`).once('value');
+                    if (!statusSnap.exists()) continue;
 
-            const now = Date.now();
-            const contactUids = Object.keys(contactsSnap.val());
-            let friendStatusCount = 0;
+                    const statuses = [];
+                    statusSnap.forEach(child => {
+                        const s = child.val();
+                        if ((now - s.timestamp) < STATUS_EXPIRY_MS) {
+                            statuses.push({ id: child.key, ...s });
+                        }
+                    });
 
-            for (const uid of contactUids) {
-                const statusSnap = await db.ref(`statuses/${uid}`).once('value');
-                if (!statusSnap.exists()) continue;
+                    if (statuses.length === 0) continue;
 
-                const statuses = [];
-                statusSnap.forEach(child => {
-                    const s = child.val();
-                    if ((now - s.timestamp) < STATUS_EXPIRY_MS) {
-                        statuses.push({ id: child.key, ...s });
-                    }
-                });
+                    // Get user info
+                    const userSnap = await db.ref(`users/${uid}`).once('value');
+                    if (!userSnap.exists()) continue;
+                    const userData = userSnap.val();
 
-                if (statuses.length === 0) continue;
+                    statuses.sort((a, b) => a.timestamp - b.timestamp);
+                    const latest = statuses[statuses.length - 1];
+                    const timeAgo = getTimeAgo(latest.timestamp || now);
 
-                // Get user info
-                const userSnap = await db.ref(`users/${uid}`).once('value');
-                if (!userSnap.exists()) continue;
-                const userData = userSnap.val();
+                    // Check if current user has seen all statuses
+                    const allSeen = statuses.every(s => s.views && s.views[currentUser.uid]);
+                    friendStatusCount++;
 
-                statuses.sort((a, b) => a.timestamp - b.timestamp);
-                const latest = statuses[statuses.length - 1];
-                const timeAgo = getTimeAgo(latest.timestamp || now);
+                    const item = document.createElement('div');
+                    item.className = 'status-friend-item';
+                    item.innerHTML = `
+                        <div class="status-avatar-wrapper">
+                            <div class="status-avatar ${allSeen ? 'seen-status' : 'has-status'}" style="font-size:28px;">${userData.emoji || '😊'}</div>
+                        </div>
+                        <div class="status-friend-info">
+                            <div class="status-friend-name">${userData.name || 'User'}</div>
+                            <div class="status-friend-time">${timeAgo}</div>
+                        </div>
+                    `;
+                    item.addEventListener('click', () => {
+                        openStatusViewer(uid, userData.name, userData.emoji, statuses, false);
+                    });
+                    itemsToAppend.push(item);
+                }
 
-                // Check if current user has seen all statuses
-                const allSeen = statuses.every(s => s.views && s.views[currentUser.uid]);
-                friendStatusCount++;
+                friendsList.innerHTML = '';
+                itemsToAppend.forEach(item => friendsList.appendChild(item));
 
-                const item = document.createElement('div');
-                item.className = 'status-friend-item';
-                item.innerHTML = `
-                    <div class="status-avatar-wrapper">
-                        <div class="status-avatar ${allSeen ? 'seen-status' : 'has-status'}" style="font-size:28px;">${userData.emoji || '😊'}</div>
-                    </div>
-                    <div class="status-friend-info">
-                        <div class="status-friend-name">${userData.name || 'User'}</div>
-                        <div class="status-friend-time">${timeAgo}</div>
-                    </div>
-                `;
-                item.addEventListener('click', () => {
-                    openStatusViewer(uid, userData.name, userData.emoji, statuses, false);
-                });
-                friendsList.appendChild(item);
-            }
-
-            if (friendStatusCount > 0) {
-                friendsSection.style.display = 'block';
-                emptyState.style.display = 'none';
-            } else {
-                friendsSection.style.display = 'none';
-                emptyState.style.display = 'block';
+                if (friendStatusCount > 0) {
+                    friendsSection.style.display = 'block';
+                    emptyState.style.display = 'none';
+                } else {
+                    friendsSection.style.display = 'none';
+                    emptyState.style.display = 'block';
+                }
+            } finally {
+                isStatusLoading = false;
             }
         }
 
@@ -7099,8 +7197,19 @@
             }
 
             // Auto-progress
-            const duration = status.type === 'video' ? Math.min((video.duration || 15) * 1000, 30000) : STATUS_DURATION;
-            startStatusProgress(index, isOwnStatus, duration);
+            if (status.type === 'video') {
+                if (video.readyState >= 1) { // HAVE_METADATA
+                    const duration = Math.min(video.duration * 1000, 60000);
+                    startStatusProgress(index, isOwnStatus, duration);
+                } else {
+                    video.onloadedmetadata = () => {
+                        const duration = Math.min(video.duration * 1000, 60000);
+                        startStatusProgress(index, isOwnStatus, duration);
+                    };
+                }
+            } else {
+                startStatusProgress(index, isOwnStatus, STATUS_DURATION);
+            }
         }
 
         function startStatusProgress(index, isOwn, duration) {

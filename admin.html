@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Admin Panel - CallingApp</title>
+    <title>Admin Panel - Zappy-online</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -967,7 +967,7 @@
         <div class="login-card">
             <div class="login-title">
                 <h1>🔐 Admin Panel</h1>
-                <p>CallingApp Management System</p>
+                <p>Zappy-online Management System</p>
                 <span class="admin-badge">ADMIN ACCESS</span>
             </div>
             <form id="admin-login-form">
@@ -1556,11 +1556,65 @@
             });
         }
 
-        // Load reports (placeholder)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load reports
         function loadReports() {
             const tbody = document.getElementById('reports-table-body');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">No reports found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">Loading reports...</td></tr>';
+            
+            db.ref('reports').orderByChild('timestamp').on('value', snapshot => {
+                if (!snapshot.exists()) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">No reports found</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = '';
+                const reports = [];
+                snapshot.forEach(child => {
+                    reports.push({ id: child.key, ...child.val() });
+                });
+                reports.sort((a, b) => b.timestamp - a.timestamp);
+                
+                reports.forEach(report => {
+                    const date = new Date(report.timestamp).toLocaleString();
+                    const tr = document.createElement('tr');
+                    tr.style.background = report.status === 'resolved' ? 'rgba(52, 199, 89, 0.1)' : 'transparent';
+                    tr.innerHTML = `
+                        <td>${report.id.substring(0, 8)}...</td>
+                        <td>${escapeHtml(report.reporterName || 'User')}<br><small>${escapeHtml(report.reporterJgId || '')}</small></td>
+                        <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHtml(report.description || '')}">${escapeHtml(report.description || '')}</td>
+                        <td>${date}</td>
+                        <td>
+                            <button class="action-btn" onclick="window.viewReport('${report.id}', \`${escapeHtml((report.description || '').replace(/\`/g, '\\`'))}\`)">👁️ View</button>
+                            ${report.status !== 'resolved' ? `<button class="action-btn" style="background:var(--success-green);" onclick="window.resolveReport('${report.id}')">✅ Resolve</button>` : ''}
+                            <button class="action-btn" style="background:var(--error-red);" onclick="window.deleteReport('${report.id}')">🗑️ Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
         }
+        
+        window.viewReport = function(id, desc) {
+            alert(`Report Details:\n\n${desc}`);
+        };
+
+        window.resolveReport = function(id) {
+            if (confirm('Mark this report as resolved?')) {
+                db.ref(`reports/${id}`).update({ status: 'resolved' });
+            }
+        };
+
+        window.deleteReport = function(id) {
+            if (confirm('Delete this report permanently?')) {
+                db.ref(`reports/${id}`).remove();
+            }
+        };
 
         // Theme Management Functions
         function changeTheme(themeName) {
